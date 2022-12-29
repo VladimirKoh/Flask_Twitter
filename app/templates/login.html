@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block left_content %}
+{% endblock left_content %}
+
+{% block center_content %}
     <h1>Sign In</h1>
         {% with messages = get_flashed_messages() %}
             {% if messages %}

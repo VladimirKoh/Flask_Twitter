@@ -5,20 +5,20 @@ from wtforms.validators import DataRequired, EqualTo, Email, ValidationError
 from app.models import User
 
 class LoginForm(FlaskForm):
-    login = StringField('Login', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In')
+    login = StringField('Логин', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    remember_me = BooleanField('Запомнить меня')
+    submit = SubmitField('Войти')
 
 
 class RegistrationForm(FlaskForm):
-    login = StringField('Login', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
-    first_name = StringField('First_name', validators=[DataRequired()])
-    last_name = StringField('Last_name', validators=[DataRequired()])
-    submit = SubmitField('Register')
+    login = StringField('Логин', validators=[DataRequired()])
+    email = StringField('Емаил', validators=[DataRequired(), Email()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')])
+    first_name = StringField('Имя', validators=[DataRequired()])
+    last_name = StringField('Фамилия', validators=[DataRequired()])
+    submit = SubmitField('Зарегистрироваться')
 
     def validate_username(self, login):
         user = User.query.filter_by(login=login.data).first()

@@ -1,29 +1,81 @@
 {% extends 'base.html' %}
 
-{% block content_left %}
-<div class="container gedf-wrapper">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="h5">{{ userprofile.first_name }} {{ userprofile.last_name }}</div>
-                    <div class="h7 text-muted">{{userprofile.login}}</div>
-                    <div class="h7">{{ userprofile.city }}
-                    </div>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div class="h6 text-muted">Подписчики</div>
-                            <div class="h5">5.2342</div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="h6 text-muted">Подписки</div>
-                            <div class="h5">6758</div>
-                        </li>
-                        <li class="list-group-item">Статус</li>
-                    </ul>
-                </div>
+{% block left_content %}
+    <div class="card card-white grid-margin">
+        <div class="card-heading clearfix">
+            <h4 class="card-title">User Profile</h4>
+        </div>
+        <div class="card-body user-profile-card mb-3">
+            <img src="{{ userprofile.avatar(240) }}" class="user-profile-image rounded-circle" alt="" />
+            <h4 class="text-center h6 mt-2">{{ userprofile.first_name }} {{ userprofile.last_name }}</h4>
+            <p class="text-center small">{{ userprofile.city }}</p>
+            <button class="btn btn-theme btn-sm">Follow</button>
+            <button class="btn btn-theme btn-sm">Message</button>
+        </div>
+        <hr />
+        <!-- <div class="card-heading clearfix mt-3">
+            <h4 class="card-title">User Profile</h4>
+        </div>
+        <div class="card-body mb-3">
+            <a href="#" class="label label-success mb-2">HTML</a>
+            <a href="#" class="label label-success mb-2">CSS</a>
+            <a href="#" class="label label-success mb-2">Sass</a>
+            <a href="#" class="label label-success mb-2">Bootstrap</a>
+            <a href="#" class="label label-success mb-2">Javascript</a>
+            <a href="#" class="label label-success mb-2">Photoshop</a>
+            <a href="#" class="label label-success">UI</a>
+            <a href="#" class="label label-success">UX</a>
+        </div>
+        <hr /> -->
+        <div class="card-heading clearfix mt-3">
+            <h4 class="card-title">О себе</h4>
+        </div>
+        <div class="card-body mb-3">
+            <p class="mb-0">Информация обо мне</p>
+        </div>
+        <hr />
+        <!-- <div class="card-heading clearfix mt-3">
+            <h4 class="card-title">Contact Information</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-borderless mb-0 text-muted">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Email:</th>
+                            <td>addyour@emailhere</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Phone:</th>
+                            <td>(+44) 123 456 789</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Address:</th>
+                            <td>74 Guild Street 542B, Great North Town MT.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-{% endblock content_left %}
+        </div> -->
+    </div>
+{% endblock left_content %}
 
-            
+{% block center_form_content %}
+    <div class="card card-white grid-margin">
+        <div class="card-body">
+            <div class="post">
+                <form action="" method="post">
+                    {{ form.hidden_tag() }}
+                    {{ form.text(class="form-control", placeholder="Что происходит?", rows="4") }}
+                    <div class="post-options">
+                        <a href="#"><i class="fa fa-camera"></i></a>
+                        <!-- <a href="#"><i class="fas fa-video"></i></a>
+                        <a href="#"><i class="fa fa-music"></i></a> -->
+                        {{ form.submit(class="btn btn-outline-primary float-right") }}
+                        <!-- <button class="btn btn-outline-primary float-right">Post</button> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock center_form_content %}

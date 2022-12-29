@@ -1,20 +1,17 @@
 {% extends 'base.html' %}
 
-{% block content_left %}
-<div class="container gedf-wrapper">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    {% for con in content_left %}
-                        <div class="h5"><a class="h5 m-0" href="">#{{ con }}</a></div>
-                    {% endfor %}
-                    <!-- <div class="h7 text-muted"><a class="h7 text-muted" href="{{ url_for('logout') }}">Выйти</a></div> -->
-                </div>
-                    
-            </div>
+{% block left_content %}
+    <div class="card card-white grid-margin">
+        <div class="card-heading clearfix">
+            <h4 class="card-title"><a href="{{ url_for('index') }}">Главная</a></h4>
         </div>
-{% endblock content_left %}
-
+        <div class="card-heading clearfix">
+            <h4 class="card-title"><a href="">#поиск</a></h4>
+        </div>
+        <div class="card-heading clearfix">
+            <h4 class="card-title"><a href="{{ url_for('user', userlogin=current_user.login) }}">Мой профиль</a></h4>
+        </div>
+    </div>
+{% endblock left_content %}
             
             

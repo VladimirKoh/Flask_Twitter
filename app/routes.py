@@ -65,27 +65,28 @@ def register():
 @app.route('/user/<userlogin>', methods=['GET', 'POST'])
 def user(userlogin):
     form = AddMessageForm()
-    if form.validate_on_submit():
-        message = form.text.data
-        #система отбирания тегов из сообщения
-        tag_list = list()
-        text_list = list()
-        for row in message.split():
-            if '#' in row:
-                tag_list.append(row.replace('#', ''))
+    if request.method == "POST":
+        if form.validate_on_submit():
+            message = form.text.data
+            #система отбирания тегов из сообщения
+            tag_list = list()
+            text_list = list()
+            for row in message.split():
+                if '#' in row:
+                    tag_list.append(row.replace('#', ''))
+                else:
+                    text_list.append(row)
+            if len(tag_list) > 0:
+                tag = ' '.join(tag_list)
             else:
-                text_list.append(row)
-        if len(tag_list) > 0:
-            tag = ' '.join(tag_list)
-        else:
-            tag = None
-        message = ' '.join(text_list)
-        #конец системы отбирания тегов
-        author = current_user
-        messages_base = Message(message, author, tag)
-        db.session.add(messages_base)
-        db.session.commit()
-        return redirect(url_for('user', userlogin=current_user.login))
+                tag = None
+            message = ' '.join(text_list)
+            #конец системы отбирания тегов
+            author = current_user
+            messages_base = Message(message, author, tag)
+            db.session.add(messages_base)
+            db.session.commit()
+            return redirect(url_for('user', userlogin=current_user.login))
     userprofile = User.query.filter_by(login=userlogin).first_or_404()
     messages_base = Message.query.filter_by(author_id=userprofile.id).order_by(Message.date.desc()).all()
 
