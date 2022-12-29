@@ -1,8 +1,20 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block content %}
-    <h1>Hi, {{ current_user.login }}!</h1>
-    {% for m_b in messages_base %}
-    <div><p>{{ m_b.author.login }} says: <b>{{ m_b.text }}</b></p></div>
-    {% endfor %}
-{% endblock %}
+{% block content_left %}
+<div class="container gedf-wrapper">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    {% for con in content_left %}
+                        <div class="h5"><a class="h5 m-0" href="">#{{ con }}</a></div>
+                    {% endfor %}
+                    <!-- <div class="h7 text-muted"><a class="h7 text-muted" href="{{ url_for('logout') }}">Выйти</a></div> -->
+                </div>
+                    
+            </div>
+        </div>
+{% endblock content_left %}
+
+            
+            
