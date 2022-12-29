@@ -40,6 +40,7 @@ def login():
 
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
@@ -62,7 +63,6 @@ def register():
 
 
 @app.route('/user/<userlogin>', methods=['GET', 'POST'])
-@login_required
 def user(userlogin):
     form = AddMessageForm()
     if form.validate_on_submit():
