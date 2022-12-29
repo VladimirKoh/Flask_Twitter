@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Hi, {{ current_user.login }}!</h1>
+    {% for m_b in messages_base %}
+    <div><p>{{ m_b.author.login }} says: <b>{{ m_b.text }}</b></p></div>
+    {% endfor %}
+{% endblock %}

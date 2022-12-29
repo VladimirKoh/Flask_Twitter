@@ -1,5 +1,6 @@
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import db
+from app import db, login_manager
 from datetime import datetime
 
 
@@ -23,10 +24,10 @@ class Tag(db.Model):
     message = db.relationship('Message', backref=db.backref('tags', lazy=True))
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), nullable=False, unique=True)
-    password_hash = db.Column(db.String(100), nullable=False)
+    password_hash = db.Column(db.String(128))
     login = db.Column(db.String(100), nullable=False, unique=True)
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
@@ -41,3 +42,8 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
