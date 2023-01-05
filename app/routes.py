@@ -1,9 +1,14 @@
+from datetime import datetime
 from werkzeug.urls import url_parse
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
+from werkzeug.utils import secure_filename
+import uuid as uuid
+import os
 from app import app, db
-from app.forms import AddMessageForm, LoginForm, RegistrationForm
+from app.forms import AddMessageForm, EditProfileForm, LoginForm, RegistrationForm
 from app.models import User, Message, Tag
+from config import Config
 
 @app.route('/')
 @app.route('/index')
@@ -52,7 +57,12 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(login=form.login.data, email=form.email.data, first_name=form.first_name.data, last_name=form.last_name.data)
+        file = form.profile_pic_url.data
+        pic_filename = secure_filename(file.filename)
+        pic_name = str(uuid.uuid1()) + "_" + pic_filename
+        #save that image
+        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), Config.UPLOAD_FOLDER, pic_name))
+        user = User(login=form.login.data, email=form.email.data, first_name=form.first_name.data, last_name=form.last_name.data, profile_pic_url=pic_name)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -60,6 +70,27 @@ def register():
         login_user(user)
         return redirect(url_for('index'))
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    #Добавить в скобки current_user.login при включении редактирвоания логина
+    form = EditProfileForm(current_user.email)
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        flash('Данные успешно обновлены')
+        return redirect(url_for('edit_profile'))
+    elif request.method == "GET":
+        form.email.data = current_user.email
+        form.first_name.data = current_user.first_name
+        form.last_name.data = current_user.last_name
+        form.about_me.data = current_user.about_me
+    return render_template('edit_profile.html', title='Редактирвоать профиль', form=form)
 
 
 @app.route('/user/<userlogin>', methods=['GET', 'POST'])
@@ -91,3 +122,10 @@ def user(userlogin):
     messages_base = Message.query.filter_by(author_id=userprofile.id).order_by(Message.date.desc()).all()
 
     return render_template('user.html', title=f"Профиль {userlogin}", messages_base=messages_base, userprofile=userprofile, form=form)
+
+
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.utcnow()
+        db.session.commit()

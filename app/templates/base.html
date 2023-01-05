@@ -16,6 +16,14 @@
 <div class="page-inner no-page-title">
     <!-- start page main wrapper -->
     <div id="main-wrapper">
+        <nav>
+            <a href="{{ url_for('index') }}">Главная</a>
+            <a href="{{ url_for('user', userlogin=current_user.login) }}">Мой профиль</a>
+            <a href="{{ url_for('edit_profile') }}">Редактировать профиль</a>
+            <a href="{{ url_for('register') }}">Регистрация</a>
+            <a href="{{ url_for('login') }}">Войти</a>
+            <a href="{{ url_for('logout') }}">Выйти</a>
+        </nav>
         <div class="row">
             <div class="col-lg-5 col-xl-3">
                 {% block left_content %}
@@ -91,8 +99,12 @@
                                     <div class="card card-white grid-margin">
                                         <div class="card-body">
                                             <div class="timeline-item-header">
-                                                <img src="{{ m.author.avatar(128) }}" alt="" />
-                                                <p>{{ m.author.first_name }} {{ m.author.last_name }} <span>@{{ m.author.login }}</span></p>
+                                                {% if m.author.profile_pic_url %}
+                                                    <img src="{{ url_for('static', filename='images/' + m.author.profile_pic_url ) }}" class="user-profile-image rounded-circle" alt="" />
+                                                {% else %}
+                                                    <img src="{{ m.author.avatar(120) }}" class="user-profile-image rounded-circle" alt="" />
+                                                {% endif %}
+                                                <p>{{ m.author.first_name }} {{ m.author.last_name }} <span><a class="link-a" href="{{ url_for('user', userlogin=m.author.login) }}">@{{ m.author.login }}</a></span></p>
                                                 <small>{{ m.date }}</small>
                                             </div>
                                             <div class="timeline-item-post">
@@ -193,6 +205,12 @@ body {
 }
 .card-heading a {
     color: #030303;
+}
+.line-a a {
+    color:#8e8e8e
+}
+.center-buckground-color {
+    background-color: #fff;
 }
 .grid-margin {
     margin-bottom: 15px;

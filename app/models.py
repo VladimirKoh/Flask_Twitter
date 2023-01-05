@@ -33,6 +33,9 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
     city = db.Column(db.String(100), nullable=True)
+    about_me = db.Column(db.String(140), default='Информация обо мне')
+    profile_pic_url = db.Column(db.String(100), nullable=True)
+    last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     messages = db.relationship('Message', backref=db.backref('author', lazy=True))
 
     def __repr__(self):

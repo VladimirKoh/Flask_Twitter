@@ -4,7 +4,7 @@
 {% endblock left_content %}
 
 {% block center_content %}
-    <h1>Sign In</h1>
+    <h1>Вход</h1>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
             <ul>
@@ -27,5 +27,5 @@
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
-    <p>Вы еще не зарегистрированы?<a href="{{ url_for('register') }}">Зарегистрироваться</a></p>
+    <p>Вы еще не зарегистрированы? | <a href="{{ url_for('register') }}">Зарегистрироваться</a></p>
  {% endblock %}

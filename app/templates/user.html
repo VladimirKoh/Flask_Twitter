@@ -3,14 +3,21 @@
 {% block left_content %}
     <div class="card card-white grid-margin">
         <div class="card-heading clearfix">
-            <h4 class="card-title">User Profile</h4>
+            <h4 class="card-title">Профиль пользователя</h4>
         </div>
         <div class="card-body user-profile-card mb-3">
-            <img src="{{ userprofile.avatar(240) }}" class="user-profile-image rounded-circle" alt="" />
+            {% if userprofile.profile_pic_url %}
+                <img src="{{ url_for('static', filename='images/' + userprofile.profile_pic_url ) }}" class="user-profile-image rounded-circle" alt="" />
+            {% else %}
+                <img src="{{ userprofile.avatar(240) }}" class="user-profile-image rounded-circle" alt="" />
+            {% endif %}
             <h4 class="text-center h6 mt-2">{{ userprofile.first_name }} {{ userprofile.last_name }}</h4>
             <p class="text-center small">{{ userprofile.city }}</p>
             <button class="btn btn-theme btn-sm">Follow</button>
             <button class="btn btn-theme btn-sm">Message</button>
+            {% if userprofile == current_user %}
+                <p><a href="{{ url_for('edit_profile') }}">Редактирвоать профиль</a></p>
+            {% endif %}
         </div>
         <hr />
         <!-- <div class="card-heading clearfix mt-3">
@@ -31,12 +38,15 @@
             <h4 class="card-title">О себе</h4>
         </div>
         <div class="card-body mb-3">
-            <p class="mb-0">Информация обо мне</p>
+            <p class="mb-0">{{ userprofile.about_me }}</p>
         </div>
         <hr />
-        <!-- <div class="card-heading clearfix mt-3">
-            <h4 class="card-title">Contact Information</h4>
+        <div class="card-body mb-3">
+            {% if userprofile.last_seen %}
+                <p class="mb-0">Последний раз в сети был:<br>{{ userprofile.last_seen }}</p>
+            {% endif %}
         </div>
+        <!-- 
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-borderless mb-0 text-muted">
@@ -60,7 +70,9 @@
     </div>
 {% endblock left_content %}
 
+
 {% block center_form_content %}
+{% if current_user.login == userprofile.login %}
     <div class="card card-white grid-margin">
         <div class="card-body">
             <div class="post">
@@ -78,4 +90,5 @@
             </div>
         </div>
     </div>
+{% endif %}
 {% endblock center_form_content %}
