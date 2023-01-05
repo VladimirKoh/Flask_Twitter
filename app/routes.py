@@ -18,6 +18,13 @@ def index():
     return render_template("index.html", title='Home Page', messages_base=messages_base, content_left=content_left)
 
 
+@app.route('/reading')
+def reading():
+    content_left = [1, 2, 3]
+    messages_base = User.followed_posts(current_user)
+    return render_template("index.html", title='Home Page', messages_base=messages_base, content_left=content_left)
+
+
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     content_left = [1, 2, 3]
@@ -91,6 +98,38 @@ def edit_profile():
         form.last_name.data = current_user.last_name
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='Редактирвоать профиль', form=form)
+
+
+@app.route('/follow/<userlogin>')
+@login_required
+def follow(userlogin):
+    user = User.query.filter_by(login=userlogin).first()
+    if user is None:
+        flash('User {} not found.'.format(userlogin))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash('You cannot follow yourself!')
+        return redirect(url_for('user', userlogin=userlogin))
+    current_user.follow(user)
+    db.session.commit()
+    flash('You are following {}!'.format(userlogin))
+    return redirect(url_for('user', userlogin=userlogin))
+
+
+@app.route('/unfollow/<userlogin>')
+@login_required
+def unfollow(userlogin):
+    user = User.query.filter_by(login=userlogin).first()
+    if user is None:
+        flash('User {} not found.'.format(userlogin))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash('You cannot unfollow yourself!')
+        return redirect(url_for('user', userlogin=userlogin))
+    current_user.unfollow(user)
+    db.session.commit()
+    flash('You are not following {}.'.format(userlogin))
+    return redirect(url_for('user', userlogin=userlogin))
 
 
 @app.route('/user/<userlogin>', methods=['GET', 'POST'])
