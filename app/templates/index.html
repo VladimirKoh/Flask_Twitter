@@ -2,15 +2,11 @@
 
 {% block left_content %}
     <div class="card card-white grid-margin">
+        {% for popular_tag in popular_tags %}
         <div class="card-heading clearfix">
-            <h4 class="card-title"><a href="{{ url_for('index') }}">Главная</a></h4>
+            <h4 class="card-title"><a href="{{ url_for('search', q=popular_tag.text) }}">#{{ popular_tag.text }}</a></h4>
         </div>
-        <div class="card-heading clearfix">
-            <h4 class="card-title"><a href="">#поиск</a></h4>
-        </div>
-        <div class="card-heading clearfix">
-            <h4 class="card-title"><a href="{{ url_for('user', userlogin=current_user.login) }}">Мой профиль</a></h4>
-        </div>
+        {% endfor %}
     </div>
 {% endblock left_content %}
             

@@ -13,24 +13,24 @@ from config import Config
 @app.route('/')
 @app.route('/index')
 def index():
-    content_left = [1, 2, 3]
+    popular_tags = Tag.query.order_by(Tag.id.desc()).distinct(Tag.text).limit(10).all()
     messages_base = Message.query.order_by(Message.date.desc()).all()
-    return render_template("index.html", title='Home Page', messages_base=messages_base, content_left=content_left)
+    return render_template("index.html", title='Home Page', messages_base=messages_base, popular_tags=popular_tags)
 
 
 @app.route('/reading')
 def reading():
-    content_left = [1, 2, 3]
+    popular_tags = Tag.query.order_by(Tag.id.desc()).distinct(Tag.text).limit(10).all()
     messages_base = User.followed_posts(current_user)
-    return render_template("index.html", title='Home Page', messages_base=messages_base, content_left=content_left)
+    return render_template("index.html", title='Home Page', messages_base=messages_base, popular_tags=popular_tags)
 
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    content_left = [1, 2, 3]
+    popular_tags = Tag.query.order_by(Tag.id.desc()).distinct(Tag.text).limit(10).all()
     tag_name = request.args.get('q', None)
     messages_base = Message.query.join(Tag, Tag.message_id==Message.id).filter_by(text=tag_name).order_by(Message.date.desc()).all()
-    return render_template('index.html', title='Поиск', messages_base=messages_base, content_left=content_left)
+    return render_template('index.html', title='Поиск', messages_base=messages_base, popular_tags=popular_tags)
 
 
 @app.route('/login', methods=['GET', 'POST'])
