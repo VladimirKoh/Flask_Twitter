@@ -6,20 +6,19 @@ from flask_wtf.file import FileField
 from app.models import User
 
 class LoginForm(FlaskForm):
-    login = StringField('Логин', validators=[DataRequired()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
+    login = StringField('Логин', validators=[DataRequired()], render_kw={"placeholder": "Логин"})
+    password = PasswordField('Пароль', validators=[DataRequired()], render_kw={"placeholder": "Пароль"})
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
 
 
 class RegistrationForm(FlaskForm):
-    login = StringField('Логин', validators=[DataRequired()])
-    email = StringField('Емаил', validators=[DataRequired(), Email()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
-    password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')])
-    first_name = StringField('Имя', validators=[DataRequired()])
-    last_name = StringField('Фамилия', validators=[DataRequired()])
-    profile_pic_url = FileField('Аватар профиля')
+    login = StringField('Логин', validators=[DataRequired()], render_kw={"placeholder": "Логин"})
+    email = StringField('Емаил', validators=[DataRequired(), Email()], render_kw={"placeholder": "Емеил"})
+    password = PasswordField('Пароль', validators=[DataRequired()], render_kw={"placeholder": "Пароль"})
+    password2 = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')], render_kw={"placeholder": "Повторите пароль"})
+    first_name = StringField('Имя', validators=[DataRequired()], render_kw={"placeholder": "Имя"})
+    last_name = StringField('Фамилия', validators=[DataRequired()], render_kw={"placeholder": "Фамилия"})
     submit = SubmitField('Зарегистрироваться')
 
     def validate_username(self, login):
@@ -35,7 +34,7 @@ class RegistrationForm(FlaskForm):
 
 class EditProfileForm(FlaskForm):
     # login = StringField('Логин', validators=[DataRequired()])
-    # profile_pic_url = FileField('Аватар профиля')
+    profile_pic_url = FileField('Аватар профиля')
     email = StringField('Емаил', validators=[DataRequired(), Email()])
     first_name = StringField('Имя', validators=[DataRequired()])
     last_name = StringField('Фамилия', validators=[DataRequired()])

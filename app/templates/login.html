@@ -4,6 +4,7 @@
 {% endblock left_content %}
 
 {% block center_content %}
+<div class="card card-white grid-margin">
     <h1>Вход</h1>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -16,16 +17,11 @@
         {% endwith %}
     <form action="" method="post"  novalidate>
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.login.label }}<br>
-            {{ form.login(size=32) }}<br>
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
-        </p>
+            {{ form.login(size=32, class='form-control') }}<br>
+            {{ form.password(size=32, class='form-control') }}<br>
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
     <p>Вы еще не зарегистрированы? | <a href="{{ url_for('register') }}">Зарегистрироваться</a></p>
+</div>
  {% endblock %}

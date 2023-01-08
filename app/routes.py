@@ -64,12 +64,7 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        file = form.profile_pic_url.data
-        pic_filename = secure_filename(file.filename)
-        pic_name = str(uuid.uuid1()) + "_" + pic_filename
-        #save that image
-        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), Config.UPLOAD_FOLDER, pic_name))
-        user = User(login=form.login.data, email=form.email.data, first_name=form.first_name.data, last_name=form.last_name.data, profile_pic_url=pic_name)
+        user = User(login=form.login.data, email=form.email.data, first_name=form.first_name.data, last_name=form.last_name.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -85,6 +80,12 @@ def edit_profile():
     #Добавить в скобки current_user.login при включении редактирвоания логина
     form = EditProfileForm(current_user.email)
     if form.validate_on_submit():
+        file = form.profile_pic_url.data
+        pic_filename = secure_filename(file.filename)
+        pic_name = str(uuid.uuid1()) + "_" + pic_filename
+        #save that image
+        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), Config.UPLOAD_FOLDER, pic_name))
+        current_user.profile_pic_url = pic_name
         current_user.email = form.email.data
         current_user.first_name = form.first_name.data
         current_user.last_name = form.last_name.data

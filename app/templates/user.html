@@ -13,15 +13,17 @@
             {% endif %}
             <h4 class="text-center h6 mt-2">{{ userprofile.first_name }} {{ userprofile.last_name }}</h4>
             <p class="text-center small">{{ userprofile.city }}</p>
-            <button class="btn btn-theme btn-sm">Follow</button>
-            <button class="btn btn-theme btn-sm">Message</button>
-            <p>{{ userprofile.followers.count() }} Подписчики, {{ userprofile.followed.count() }} Мои подписки.</p>
-            {% if userprofile == current_user %}
-                <p><a href="{{ url_for('edit_profile') }}">Редактирвоать профиль</a></p>
-            {% elif not current_user.is_following(userprofile) %}
-            <p><a href="{{ url_for('follow', userlogin=userprofile.login) }}">Подписаться</a></p>
-            {% else %}
-            <p><a href="{{ url_for('unfollow', userlogin=userprofile.login) }}">Отписаться</a></p>
+            <!-- <button class="btn btn-theme btn-sm">Follow</button>
+            <button class="btn btn-theme btn-sm">Message</button> -->
+            <p class="text-center small">{{ userprofile.followers.count() }} Подписчики, {{ userprofile.followed.count() }} Мои подписки.</p>
+            {% if current_user.is_authenticated %}
+                {% if userprofile == current_user %}
+                    <p><a class="btn btn-theme btn-sm" href="{{ url_for('edit_profile') }}">Редактирвоать профиль</a></p>
+                {% elif not current_user.is_following(userprofile) %}
+                <p><a class="btn btn-theme btn-sm" href="{{ url_for('follow', userlogin=userprofile.login) }}">Подписаться</a></p>
+                {% else %}
+                <p><a class="btn btn-theme btn-sm" href="{{ url_for('unfollow', userlogin=userprofile.login) }}">Отписаться</a></p>
+                {% endif %}
             {% endif %}
 
         </div>
