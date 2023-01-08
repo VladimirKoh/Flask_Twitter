@@ -153,8 +153,15 @@ def user(userlogin):
                 tag = None
             message = ' '.join(text_list)
             #конец системы отбирания тегов
+            file = form.photo_1.data
+            if file:
+                pic_filename = secure_filename(file.filename)
+                pic_name = str(uuid.uuid1()) + "_" + pic_filename
+                file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)), Config.UPLOAD_FOLDER, pic_name))
+                file = pic_name
+            #save that image
             author = current_user
-            messages_base = Message(message, author, tag)
+            messages_base = Message(message, author, file, tag)
             db.session.add(messages_base)
             db.session.commit()
             return redirect(url_for('user', userlogin=current_user.login))

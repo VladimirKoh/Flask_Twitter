@@ -55,4 +55,5 @@ class EditProfileForm(FlaskForm):
 
 class AddMessageForm(FlaskForm):
     text = TextAreaField('Что происходит', validators=[DataRequired()])
+    photo_1 = FileField('Фото поста')
     submit = SubmitField('Опубликовать')

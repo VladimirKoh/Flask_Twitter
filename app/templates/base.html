@@ -171,11 +171,14 @@
                                                     <a href="{{ url_for('search', q=tag.text) }}">#{{ tag.text }}</a>
                                                     {% endfor %}
                                                 </p>
-                                                <div class="timeline-options">
-                                                    <a href="#"><i class="fa fa-thumbs-up"></i> Like (15)</a>
-                                                    <a href="#"><i class="fa fa-comment"></i> Comment (4)</a>
-                                                    <a href="#"><i class="fa fa-share"></i> Share (6)</a>
-                                                </div>
+                                                {% if m.photo_1 %}
+                                                <img src="{{ url_for('static', filename='images/' + m.photo_1 ) }}" alt="">
+                                                {% endif %}
+                                                <!-- <div class="timeline-options">
+                                                    <a href="#"><i class="fa fa-thumbs-up"></i> Нравится (0)</a>
+                                                    <a href="#"><i class="fa fa-comment"></i> Коментарии (0)</a>
+                                                    <a href="#"><i class="fa fa-share"></i> Репосты (0)</a>
+                                                </div> -->
                                                 <!-- <div class="timeline-comment">
                                                     <div class="timeline-comment-header">
                                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" />

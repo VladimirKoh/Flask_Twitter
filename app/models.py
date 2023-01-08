@@ -9,11 +9,17 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(1024), nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
+    photo_1 = db.Column(db.String(500), nullable=True)
+    photo_2 = db.Column(db.String(500), nullable=True)
+    photo_3 = db.Column(db.String(500), nullable=True)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __init__(self, text, author, tags=None):
+    def __init__(self, text, author, pic_name, tags=None):
         self.text = text
         self.author = author
+        self.photo_1 = pic_name
+        self.photo_2 = None
+        self.photo_3 = None
         if tags:
             self.tags = [Tag(text=tag) for tag in tags.split(' ')]
 
