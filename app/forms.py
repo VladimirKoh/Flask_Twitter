@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Email, ValidationError, Length
-from flask_wtf.file import FileField
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 from app.models import User
 
@@ -53,7 +53,8 @@ class EditProfileForm(FlaskForm):
             if user is not None:
                 raise ValidationError('Такой емеил уже существует')
 
+
 class AddMessageForm(FlaskForm):
     text = TextAreaField('Что происходит', validators=[DataRequired()])
-    photo_1 = FileField('Фото поста')
+    photos = FileField('image', render_kw={'multiple': True})
     submit = SubmitField('Опубликовать')

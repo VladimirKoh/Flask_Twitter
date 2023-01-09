@@ -171,9 +171,37 @@
                                                     <a href="{{ url_for('search', q=tag.text) }}">#{{ tag.text }}</a>
                                                     {% endfor %}
                                                 </p>
-                                                {% if m.photo_1 %}
-                                                <img src="{{ url_for('static', filename='images/' + m.photo_1 ) }}" alt="">
-                                                {% endif %}
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="row g-3">
+                                                        <div class="col-6">
+                                                            {% if m.photo_1 %}
+                                                            <a class="h-100" href="{{ url_for('static', filename='images/' + m.photo_1 ) }}" data-glightbox="" data-gallery="image-popup">
+                                                            <img class="rounded img-fluid" src="{{ url_for('static', filename='images/' + m.photo_1 ) }}" alt="Image">
+                                                            </a>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="col-4">
+                                                            {% if m.photo_2 %}
+                                                            <a class="h-100" href="{{ url_for('static', filename='images/' + m.photo_2 ) }}" data-glightbox="" data-gallery="image-popup">
+                                                            <img class="rounded img-fluid" src="{{ url_for('static', filename='images/' + m.photo_2 ) }}" alt="Image">
+                                                            </a>
+                                                            {% endif %}
+                                                            <div class="position-relative bg-dark mt-3 rounded">
+                                                                <div class="hover-actions-item position-absolute top-50 start-50 translate-middle z-index-9">
+                                                                    <a class="btn btn-link text-white" href="#"> View all </a>
+                                                                </div>
+                                                                {% if m.photo_3 %}
+                                                                <a class="h-100" href="{{ url_for('static', filename='images/' + m.photo_3 ) }}" data-glightbox="" data-gallery="image-popup">
+                                                                <img class="rounded img-fluid" src="{{ url_for('static', filename='images/' + m.photo_3 ) }}" alt="">
+                                                                </a>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                
+
                                                 <!-- <div class="timeline-options">
                                                     <a href="#"><i class="fa fa-thumbs-up"></i> Нравится (0)</a>
                                                     <a href="#"><i class="fa fa-comment"></i> Коментарии (0)</a>

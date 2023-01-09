@@ -14,14 +14,14 @@ class Message(db.Model):
     photo_3 = db.Column(db.String(500), nullable=True)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __init__(self, text, author, pic_name, tags=None):
+    def __init__(self, text, author, tags, photos):
         self.text = text
         self.author = author
-        self.photo_1 = pic_name
-        self.photo_2 = None
-        self.photo_3 = None
         if tags:
-            self.tags = [Tag(text=tag) for tag in tags.split(' ')]
+            self.tags = [Tag(text=tag) for tag in tags]
+        self.photo_1, self.photo_2, self.photo_3 = (photos + [None] * 3)[:3]
+
+                
 
 
 class Tag(db.Model):

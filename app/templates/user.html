@@ -88,8 +88,9 @@
                     {{ form.hidden_tag() }}
                     {{ form.text(class="form-control", placeholder="Что происходит?", rows="4") }}
                     <div class="post-options">
-                        {{ form.photo_1 }}
-                        <a href="#"><i class="fa fa-camera"></i></a>
+                        <!-- <label for="customFile2"><i class="fa fa-camera"></i></label> -->
+                        {{ form.photos }}
+                        <!-- <a href="#"><i class="fa fa-camera"></i></a> -->
                         <!-- <a href="#"><i class="fas fa-video"></i></a>
                         <a href="#"><i class="fa fa-music"></i></a> -->
                         {{ form.submit(class="btn btn-outline-primary float-right") }}
